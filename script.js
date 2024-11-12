@@ -30,7 +30,9 @@ function changeImage(direction) {
     document.getElementById('modalImage').alt = images[currentIndex].alt;
 }
 
+// Fonction pour ajouter dynamiquement l'attribut tabindex et gérer les événements
 function initializeGallery() {
+    console.log("La fonction initializeGallery a été appelée"); // Message pour tester l'événement onload
     const figures = document.querySelectorAll('figure');
     figures.forEach((figure, index) => {
         figure.addEventListener('mouseover', () => showAltText(index));
@@ -41,19 +43,21 @@ function initializeGallery() {
         figure.addEventListener('click', () => openModal(index));
     });
 
-    // Add tabindex dynamically
+    // Ajout du tabindex et écouteurs d'événements onfocus/onblur
     const thumbnails = document.querySelectorAll('img');
     thumbnails.forEach((img, index) => {
-        img.setAttribute('tabindex', 0);  // Add tabindex to each image
+        img.setAttribute('tabindex', 0);  // Ajout de tabindex à chaque image
+        img.addEventListener('focus', () => showAltText(index));  // Ajouter gestion du focus
+        img.addEventListener('blur', resetAltText);  // Ajouter gestion du blur
     });
 }
 
 function showAltText(index) {
     const figcaption = document.querySelectorAll('figcaption')[index];
-    figcaption.style.color = 'red';  // Highlight the caption on mouseover/focus
+    figcaption.style.color = 'red';  // Mettre en surbrillance la légende
 }
 
 function resetAltText() {
     const figcaptions = document.querySelectorAll('figcaption');
-    figcaptions.forEach(figcaption => figcaption.style.color = '');  // Reset caption style
+    figcaptions.forEach(figcaption => figcaption.style.color = '');  // Réinitialiser la couleur de la légende
 }
